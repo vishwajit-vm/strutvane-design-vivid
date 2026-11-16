@@ -1,6 +1,6 @@
 {
   "name": "@strutvane/design-vivid",
-  "version": "0.1.0",
+  "version": "0.2.0-next.0",
   "description": "Vivid, the colourful Strutvane admin design: soft-shadow cards, a gradient active pill, a collapsible icon rail, gradient charts and a split sign-in. Implements the @strutvane/ui Design contract and passes designConformance().",
   "keywords": [
     "strutvane",

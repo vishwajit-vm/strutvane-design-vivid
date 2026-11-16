@@ -31,8 +31,13 @@ describe('package.json', () => {
     expect(pkg.publishConfig).toEqual({ access: 'public', provenance: true })
   })
 
-  it('rides the core train: 0.2.0-next.N (or the 0.1.0 it starts from before versioning)', () => {
-    expect(pkg.version).toMatch(/^0\.2\.0-next\.\d+$|^0\.1\.0$/)
+  it('rides the core train as a 0.2.0-next.N pre-release, never a stable version on latest', () => {
+    expect(pkg.version).toMatch(/^0\.2\.0-next\.\d+$/)
+    const pre = JSON.parse(readFileSync('.changeset/pre.json', 'utf8')) as {
+      mode: string
+      tag: string
+    }
+    expect(pre).toMatchObject({ mode: 'pre', tag: 'next' })
   })
 
   it('needs Node 24.3 or newer', () => {
@@ -71,6 +76,7 @@ describe('package.json', () => {
 
   it('ships dist and the docs, and the docs exist', () => {
     expect(pkg.files).toEqual(['dist', 'README.md', 'DESIGN.md', 'CHANGELOG.md', 'LICENSE'])
-    for (const file of ['README.md', 'DESIGN.md', 'LICENSE']) expect(existsSync(file)).toBe(true)
+    for (const file of ['README.md', 'DESIGN.md', 'CHANGELOG.md', 'LICENSE'])
+      expect(existsSync(file), file).toBe(true)
   })
 })
