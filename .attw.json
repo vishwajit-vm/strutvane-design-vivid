@@ -1,0 +1,3 @@
+{
+  "excludeEntrypoints": ["./vivid.css", "./fonts.css"]
+}
