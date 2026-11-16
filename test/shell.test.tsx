@@ -8,6 +8,7 @@
 import type { NavLinkProps, SidebarProps } from '@strutvane/ui/design'
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import type { ReactElement } from 'react'
+import { renderToString } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   AuthLayout,
@@ -173,6 +174,23 @@ describe('icon rail', () => {
     expect(frame?.hasAttribute('data-rail')).toBe(true)
   })
 
+  it('renders expanded on the server whatever is stored, so hydration matches', () => {
+    localStorage.setItem(RAIL_STORAGE_KEY, 'rail')
+    const html = renderToString(shell())
+    expect(html).not.toContain('data-rail')
+    expect(html).toContain('aria-expanded="true"')
+    expect(localStorage.getItem(RAIL_STORAGE_KEY)).toBe('rail')
+  })
+
+  it('restores a stored rail on mount without overwriting it first', () => {
+    localStorage.setItem(RAIL_STORAGE_KEY, 'rail')
+    const setItem = vi.spyOn(Storage.prototype, 'setItem')
+    const { container } = render(shell())
+    expect(container.querySelector('[data-sv-part="shell"]')?.hasAttribute('data-rail')).toBe(true)
+    expect(setItem.mock.calls.every(([, value]) => value === 'rail')).toBe(true)
+    expect(localStorage.getItem(RAIL_STORAGE_KEY)).toBe('rail')
+  })
+
   it('draws no toggle when a Sidebar is rendered outside the Vivid Shell', () => {
     render(sidebar())
     expect(screen.queryByRole('button')).toBeNull()
@@ -217,6 +235,43 @@ describe('Sidebar', () => {
     expect(quirks.querySelector('.svv-nav-glyph svg')).toBeNull()
     expect(quirks.querySelector('.svv-nav-monogram')?.textContent).toBe('É')
     expect(quirks.querySelector('.svv-nav-glyph')?.getAttribute('aria-hidden')).toBe('true')
+  })
+
+  it.each([
+    ['a decomposed accent', 'éclair', 'É'],
+    ['a ZWJ emoji', '\u{1F469}‍\u{1F4BB} Devs', '\u{1F469}‍\u{1F4BB}'],
+  ])('keeps %s whole in the monogram', (_name, label, expected) => {
+    const one: SidebarProps['groups'] = [
+      {
+        label: undefined,
+        links: [
+          {
+            entry: {
+              name: 'x',
+              label,
+              path: '/x',
+              icon: 'nope',
+              group: undefined,
+              order: 0,
+              permission: 'x',
+            },
+            current: false,
+            accessibleName: 'X',
+          },
+        ],
+      },
+    ]
+    render(<Sidebar label="Nav" brand="A" groups={one} Link={NavLink} Icon={Icon} />)
+    const link = screen.getByRole('link', { name: 'X' })
+    expect(link.querySelector('.svv-nav-monogram')?.textContent).toBe(expected)
+  })
+
+  it('renders two groups with the same label without a key clash', () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+    const twice = [groups[1], groups[1]].filter((g) => g !== undefined)
+    render(<Sidebar label="Nav" brand="A" groups={twice} Link={NavLink} Icon={Icon} />)
+    expect(screen.getAllByRole('list', { name: 'Billing' })).toHaveLength(2)
+    expect(error).not.toHaveBeenCalled()
   })
 
   it('renders the brand next to the mark', () => {

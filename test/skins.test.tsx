@@ -206,6 +206,35 @@ describe('Table', () => {
   })
 })
 
+describe('prop bags never drop the design class', () => {
+  it('merges a class the behaviour passes with the design class instead of replacing it', () => {
+    const { container } = render(
+      <>
+        <Table
+          regionProps={{ className: 'app-region' }}
+          tableProps={{ className: 'app-table' }}
+          density="default"
+        >
+          <tbody />
+        </Table>
+        <Dialog
+          overlayProps={{ className: 'app-overlay' }}
+          panelProps={{ className: 'app-panel' }}
+          title="t"
+          titleId="t"
+        />
+        <Popover panelProps={{ className: 'app-pop' }}>x</Popover>
+      </>,
+    )
+    const cls = (selector: string) => container.querySelector(selector)?.className
+    expect(cls('[data-sv-part="table-scroll"]')).toBe('svv-table-scroll app-region')
+    expect(cls('table')).toBe('svv-table app-table')
+    expect(cls('[data-sv-part="overlay"]')).toBe('svv-overlay app-overlay')
+    expect(cls('[data-sv-part="dialog"]')).toBe('svv-dialog svv-dialog-md app-panel')
+    expect(cls('[data-sv-part="popover"]')).toBe('svv-popover app-pop')
+  })
+})
+
 describe('overlays', () => {
   it('Dialog places title and description ids, children and footer, and spreads the bags', () => {
     const onScrim = vi.fn()

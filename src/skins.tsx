@@ -173,6 +173,12 @@ export function Alert({ tone, className, ...rest }: AlertProps): ReactElement {
   return <div className={cx('svv-alert', `svv-tone-${tone}`, className)} {...rest} />
 }
 
+/*
+ * The prop bags below are spread first and the design's class merged in last: a class the
+ * behaviour ever passes is kept, and it can never replace the class that makes the table box
+ * positioned and scrollable (losing it would make the page scroll sideways at 375px).
+ */
+
 /**
  * A table inside its own positioned scroll box: wide tables scroll sideways inside the card, and
  * the page never does (at 375px or at 1440px).
@@ -182,8 +188,16 @@ export function Alert({ tone, className, ...rest }: AlertProps): ReactElement {
  */
 export function Table({ regionProps, tableProps, density, children }: TableProps): ReactElement {
   return (
-    <div className="svv-table-scroll" data-sv-part="table-scroll" {...regionProps}>
-      <table className="svv-table" data-sv-density={density} {...tableProps}>
+    <div
+      data-sv-part="table-scroll"
+      {...regionProps}
+      className={cx('svv-table-scroll', regionProps.className)}
+    >
+      <table
+        data-sv-density={density}
+        {...tableProps}
+        className={cx('svv-table', tableProps.className)}
+      >
         {children}
       </table>
     </div>
@@ -199,11 +213,15 @@ export function Table({ regionProps, tableProps, density, children }: TableProps
  */
 export function Dialog(props: DialogProps): ReactElement {
   return (
-    <div className="svv-overlay" data-sv-part="overlay" {...props.overlayProps}>
+    <div
+      data-sv-part="overlay"
+      {...props.overlayProps}
+      className={cx('svv-overlay', props.overlayProps.className)}
+    >
       <div
-        className={cx('svv-dialog', `svv-dialog-${props.size ?? 'md'}`)}
         data-sv-part="dialog"
         {...props.panelProps}
+        className={cx('svv-dialog', `svv-dialog-${props.size ?? 'md'}`, props.panelProps.className)}
       >
         <h2 id={props.titleId} className="svv-dialog-title">
           {props.title}
@@ -228,7 +246,7 @@ export function Dialog(props: DialogProps): ReactElement {
  */
 export function Popover({ panelProps, children }: PopoverProps): ReactElement {
   return (
-    <div className="svv-popover" data-sv-part="popover" {...panelProps}>
+    <div data-sv-part="popover" {...panelProps} className={cx('svv-popover', panelProps.className)}>
       {children}
     </div>
   )

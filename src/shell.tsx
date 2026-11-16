@@ -31,6 +31,7 @@ import {
   useEffect,
   useId,
   useMemo,
+  useRef,
   useState,
 } from 'react'
 import { AuthArt, LogoMark } from './illustrations.tsx'
@@ -57,14 +58,22 @@ const RailContext = createContext<RailState | null>(null)
  * <Shell skipLink={skip} sidebar={nav} topBar={bar} main={<main>…</main>} navOpen={false} onCloseNav={close} />
  */
 export function Shell(props: ShellProps): ReactElement {
-  const [rail, setRail] = useState(readRail)
+  // Start expanded and read the stored choice after mount, so a server-rendered page and the
+  // first client render agree (no hydration mismatch); the rail then applies one frame later.
+  const [rail, setRail] = useState(false)
+  const restored = useRef(false)
   const columnId = useId()
   const toggle = useCallback(() => {
     setRail((current) => !current)
   }, [])
-  // Persist after the change is committed, never inside the updater (React may run updaters
-  // twice). Writing the unchanged value on mount is harmless: it is the same preference.
+  // Persist after a change is committed, never inside the updater (React may run updaters
+  // twice). The first run only restores: writing before the read would erase the stored choice.
   useEffect(() => {
+    if (!restored.current) {
+      restored.current = true
+      setRail(readRail())
+      return
+    }
     writeRail(rail)
   }, [rail])
   const value = useMemo<RailState>(() => ({ rail, toggle, columnId }), [rail, toggle, columnId])
@@ -94,9 +103,16 @@ export function Shell(props: ShellProps): ReactElement {
   )
 }
 
-/** The first character of a label (a whole emoji or accented letter, never half of one). */
+/** Splits text into user-perceived characters (grapheme clusters). */
+const graphemes = new Intl.Segmenter(undefined, { granularity: 'grapheme' })
+
+/**
+ * The first character of a label as a reader sees it: a whole emoji (even a ZWJ sequence) or a
+ * whole accented letter (even a decomposed one), never half of one.
+ */
 function monogram(label: string): string {
-  return Array.from(label.trim())[0]?.toUpperCase() ?? ''
+  const first = graphemes.segment(label.trim())[Symbol.iterator]().next()
+  return first.done ? '' : first.value.segment.toUpperCase()
 }
 
 /**
@@ -137,7 +153,10 @@ export function Sidebar({ label, brand, groups, Link, Icon }: SidebarProps): Rea
       {groups.map((group, index) => {
         const headingId = `${baseId}-group-${index}`
         return (
-          <div key={group.label ?? '_top'} className="svv-nav-group">
+          // Index in the key: two groups may share a label (or both have none). Groups hold no
+          // state and come in display order, so their position is their identity.
+          // biome-ignore lint/suspicious/noArrayIndexKey: see above; a label alone can collide.
+          <div key={`${index}:${group.label ?? ''}`} className="svv-nav-group">
             {group.label ? (
               <p id={headingId} className="svv-nav-heading">
                 {group.label}
