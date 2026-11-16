@@ -1,0 +1,100 @@
+{
+  "name": "@strutvane/design-vivid",
+  "version": "0.1.0",
+  "description": "Vivid, the colourful Strutvane admin design: soft-shadow cards, a gradient active pill, a collapsible icon rail, gradient charts and a split sign-in. Implements the @strutvane/ui Design contract and passes designConformance().",
+  "keywords": [
+    "strutvane",
+    "strutvane-design",
+    "design",
+    "design-tokens",
+    "admin",
+    "dashboard",
+    "react",
+    "oklch",
+    "dark-mode",
+    "accessibility"
+  ],
+  "homepage": "https://github.com/vishwajit-vm/strutvane-design-vivid#readme",
+  "bugs": {
+    "url": "https://github.com/vishwajit-vm/strutvane-design-vivid/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vishwajit-vm/strutvane-design-vivid.git"
+  },
+  "license": "MIT",
+  "author": "The Strutvane Authors",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./vivid.css": "./dist/vivid.css",
+    "./fonts.css": "./dist/fonts.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "DESIGN.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=24.3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "build": "tsdown && node scripts/build-css.mjs",
+    "ci": "biome check . && tsc --noEmit && vitest run --coverage && tsdown && node scripts/build-css.mjs",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "changeset publish",
+    "test:perf": "vitest run --config vitest.perf.config.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/plus-jakarta-sans": "5.3.0",
+    "@tabler/icons-react": "3.52.0"
+  },
+  "peerDependencies": {
+    "@strutvane/ui": "^0.2.0-next.0",
+    "react": "^19.2.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.7",
+    "@changesets/cli": "3.0.3",
+    "@strutvane/ui": "0.2.0-next.0",
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/react": "16.3.3",
+    "@types/node": "24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitest/coverage-v8": "5.1.0",
+    "axe-core": "4.14.0",
+    "jsdom": "31.0.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "tsdown": "0.23.7",
+    "typescript": "6.0.3",
+    "vitest": "5.1.0"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "version": ">=11.19.0",
+      "onFail": "error"
+    }
+  }
+}
