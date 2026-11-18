@@ -14,7 +14,7 @@ The file below is synced from strutvane-tooling and is identical in every repo. 
 
 ## Status
 
-- **`0.2.0-next.0` (changesets pre mode `next`, core train #128), implemented and tested, not released.** `npm install` can only produce a `package-lock.json` once `@strutvane/ui` `0.2.0-next.0` is on npm.
+- **`0.2.0-next.0` (changesets pre mode `next`, core train #128), implemented and tested, not released.** Built and tested against the published `@strutvane/ui` `0.2.0-next.1` (the peer floor, pinned as a devDependency; `test/package.test.ts` keeps them equal); plain `npm ci` works from the committed lockfile.
 - Gates: conformance 15/15 (9 reference screens), extra dark/rail/override screens, contrast at every hue in 1° steps, coverage ≥ 90/90/85/90, publint `--strict`, attw (`.attw.json` excludes the two CSS entrypoints, which attw can't resolve).
 
 ## Commands
@@ -26,7 +26,7 @@ node_modules/.bin/vitest run test/conformance.test.ts # the contract gate alone
 node .github/scripts/check-code-rules.mjs && node .github/scripts/check-package.mjs
 ```
 
-Until `@strutvane/ui` 0.2.0-next.0 is published, `node_modules` comes from a scratch npm workspace umbrella (workspaces: the ui v2 checkout and a build providing `@strutvane/framework/contracts`; this repo's `node_modules` is a junction to the umbrella's). Never commit `file:`/`link:` specs.
+`node_modules` comes from the registry (`npm ci`). To try an unreleased ui change, link it through a scratch npm workspace, but never commit `file:`/`link:` specs or a lockfile written from that layout (its `"link": true` entries break `npm ci`).
 
 ## Structure
 

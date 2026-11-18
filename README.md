@@ -12,7 +12,7 @@
 </div>
 
 > [!NOTE]
-> **Status: `0.2.0-next.0`, implemented and tested, not yet released to npm.** It implements the `@strutvane/ui` v2 Design contract and passes `designConformance()` in full. It ships with the core train (`0.2.0-next.N`) and needs `@strutvane/ui` `^0.2.0-next.0`.
+> **Status: `0.2.0-next.0`, implemented and tested, not yet released to npm.** It implements the `@strutvane/ui` v2 Design contract and passes `designConformance()` in full. It ships with the core train (`0.2.0-next.N`) and needs `@strutvane/ui` `^0.2.0-next.1`.
 
 ## What it is
 
@@ -41,7 +41,7 @@ or by hand:
 npm install @strutvane/design-vivid
 ```
 
-`@strutvane/ui` (`^0.2.0-next.0`) and `react` (`^19.2.0`) are peer dependencies.
+`@strutvane/ui` (`^0.2.0-next.1`) and `react` (`^19.2.0`) are peer dependencies.
 
 ## Use
 

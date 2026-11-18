@@ -18,6 +18,6 @@ npm install
 npm run ci        # biome → tsc → vitest --coverage (conformance included) → tsdown → CSS files
 ```
 
-Before `@strutvane/ui` `0.2.0-next.0` is on npm, link a local build through a scratch npm workspace (an umbrella folder with `ui` as a workspace whose `node_modules` this repo uses). Never commit `file:` or `link:` specs: CI refuses them.
+`@strutvane/ui` is a peer dependency and also a pinned devDependency, so the tests run against the exact published version the peer range starts at. To try an unreleased ui change, link a local build through a scratch npm workspace, and never commit `file:` or `link:` specs, or a `package-lock.json` written from that layout: CI refuses them.
 
 **Browser pass** (what jsdom can't check), before every release: both themes, 375×812 and 1440×900, every reference screen (see the contract guide §9); `document.documentElement.scrollWidth <= innerWidth` must be `true`, and Lighthouse contrast must pass.

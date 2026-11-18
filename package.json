@@ -69,13 +69,13 @@
     "@tabler/icons-react": "3.52.0"
   },
   "peerDependencies": {
-    "@strutvane/ui": "^0.2.0-next.0",
+    "@strutvane/ui": "^0.2.0-next.1",
     "react": "^19.2.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.7",
     "@changesets/cli": "3.0.3",
-    "@strutvane/ui": "0.2.0-next.0",
+    "@strutvane/ui": "0.2.0-next.1",
     "@testing-library/dom": "10.4.2",
     "@testing-library/react": "16.3.3",
     "@types/node": "24.19.2",
@@ -96,5 +96,11 @@
       "version": ">=11.19.0",
       "onFail": "error"
     }
+  },
+  "allowScripts": {
+    "esbuild@0.18.20": true,
+    "esbuild@0.25.12": true,
+    "esbuild@0.28.2": true,
+    "fsevents@2.3.3": false
   }
 }

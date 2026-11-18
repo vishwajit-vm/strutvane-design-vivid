@@ -45,13 +45,14 @@ describe('package.json', () => {
   })
 
   it('has @strutvane/ui and react as peers, never as dependencies', () => {
-    expect(pkg.peerDependencies).toEqual({ '@strutvane/ui': '^0.2.0-next.0', react: '^19.2.0' })
+    expect(pkg.peerDependencies).toEqual({ '@strutvane/ui': '^0.2.0-next.1', react: '^19.2.0' })
     expect(pkg.dependencies['@strutvane/ui']).toBeUndefined()
     expect(pkg.dependencies['react']).toBeUndefined()
   })
 
   it('tests against the exact ui version the peer range starts at', () => {
-    expect(pkg.devDependencies['@strutvane/ui']).toBe('0.2.0-next.0')
+    // The peer floor must be a published ui version that this repo's own tests ran against.
+    expect(`^${pkg.devDependencies['@strutvane/ui']}`).toBe(pkg.peerDependencies['@strutvane/ui'])
   })
 
   it('pins every dependency to an exact registry version (no file:, link: or ranges)', () => {
