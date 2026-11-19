@@ -1,6 +1,6 @@
 {
   "name": "@strutvane/design-vivid",
-  "version": "0.2.0-next.0",
+  "version": "0.2.0-next.1",
   "description": "Vivid, the colourful Strutvane admin design: soft-shadow cards, a gradient active pill, a collapsible icon rail, gradient charts and a split sign-in. Implements the @strutvane/ui Design contract and passes designConformance().",
   "keywords": [
     "strutvane",
@@ -76,6 +76,10 @@
     "@biomejs/biome": "2.6.7",
     "@changesets/cli": "3.0.3",
     "@strutvane/ui": "0.2.0-next.1",
+    "@tanstack/react-form": "1.33.5",
+    "@tanstack/react-query": "5.107.1",
+    "@tanstack/react-table": "9.3.1",
+    "@tanstack/react-virtual": "3.14.26",
     "@testing-library/dom": "10.4.2",
     "@testing-library/react": "16.3.3",
     "@types/node": "24.19.2",

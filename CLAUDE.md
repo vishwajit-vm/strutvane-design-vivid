@@ -14,7 +14,7 @@ The file below is synced from strutvane-tooling and is identical in every repo. 
 
 ## Status
 
-- **`0.2.0-next.0` (changesets pre mode `next`, core train #128), implemented and tested, not released.** Built and tested against the published `@strutvane/ui` `0.2.0-next.1` (the peer floor, pinned as a devDependency; `test/package.test.ts` keeps them equal); plain `npm ci` works from the committed lockfile.
+- **`0.2.0-next.1` (changesets pre mode `next`, core train #128), implemented and tested, not released.** Built and tested against the published `@strutvane/ui` `0.2.0-next.1` (the peer floor, pinned as a devDependency; `test/package.test.ts` keeps them equal); plain `npm ci` works from the committed lockfile.
 - Gates: conformance 15/15 (9 reference screens), extra dark/rail/override screens, contrast at every hue in 1° steps, coverage ≥ 90/90/85/90, publint `--strict`, attw (`.attw.json` excludes the two CSS entrypoints, which attw can't resolve).
 
 ## Commands
