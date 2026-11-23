@@ -73,11 +73,11 @@
     "react": "^19.2.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.7",
+    "@biomejs/biome": "2.6.8",
     "@changesets/cli": "3.0.3",
     "@strutvane/ui": "0.2.0-next.1",
     "@tanstack/react-form": "1.33.5",
-    "@tanstack/react-query": "5.107.1",
+    "@tanstack/react-query": "5.108.1",
     "@tanstack/react-table": "9.3.1",
     "@tanstack/react-virtual": "3.14.26",
     "@testing-library/dom": "10.4.2",
@@ -85,14 +85,14 @@
     "@types/node": "24.19.2",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "@vitest/coverage-v8": "5.1.0",
-    "axe-core": "4.14.0",
+    "@vitest/coverage-v8": "5.1.1",
+    "axe-core": "4.14.1",
     "jsdom": "31.0.1",
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "tsdown": "0.23.7",
     "typescript": "6.0.3",
-    "vitest": "5.1.0"
+    "vitest": "5.1.1"
   },
   "devEngines": {
     "packageManager": {
